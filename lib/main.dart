@@ -11,27 +11,8 @@ GetIt getIt = GetIt.instance;
 
 void main() {
   getIt.registerSingleton<ChatListState>(ChatListState(), signalsReady: true);
-
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferencesHelper.shared.userControl(completionHandler: (status) {
-    if (status) {
-      runApp(MaterialApp(
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider(create: (_) => ShuffleListVM()),
-            ],
-            child: ShuffleView(),
-          ),
-          debugShowCheckedModeBanner: false));
-    } else {
-      runApp(MaterialApp(
-          home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider(create: (_) => ShuffleListVM()),
-            ],
-            child: SignInView(),
-          ),
-          debugShowCheckedModeBanner: false));
-    }
+    runApp(MaterialApp(home:status ? ShuffleView() : SignInView(),debugShowCheckedModeBanner: false));
   });
 }
