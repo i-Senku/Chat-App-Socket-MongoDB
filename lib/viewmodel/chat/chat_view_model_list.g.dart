@@ -49,11 +49,11 @@ mixin _$ChatListState on ChatListVM, Store {
   final _$ChatListVMActionController = ActionController(name: 'ChatListVM');
 
   @override
-  dynamic addMessage({String message, bool isMy}) {
+  dynamic addMessage({String message, bool isMy, bool isImage}) {
     final _$actionInfo =
         _$ChatListVMActionController.startAction(name: 'ChatListVM.addMessage');
     try {
-      return super.addMessage(message: message, isMy: isMy);
+      return super.addMessage(message: message, isMy: isMy, isImage: isImage);
     } finally {
       _$ChatListVMActionController.endAction(_$actionInfo);
     }

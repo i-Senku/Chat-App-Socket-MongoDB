@@ -23,21 +23,23 @@ class SocketHelper {
       socket.emit('chatID',{'id' : id});
       socket.on('receive_message', (data) {
         var content = data['content'].toString();
-        getIt<ChatListState>().addMessage(message: content,isMy: false);
+        var isImage = data['isImage'] as bool;
+        getIt<ChatListState>().addMessage(message: content,isMy: false,isImage: isImage);
         StreamControllerHelper.shared.setLastIndex(getIt<ChatListState>().messageList.length);
       } );
     });
     
   }
 
-  void sendMessage({@required String receiver,@required String message}){
-    getIt<ChatListState>().addMessage(message: message,isMy: true);
+  void sendMessage({@required String receiver,@required String message,bool isImage}){
+    getIt<ChatListState>().addMessage(message: message,isMy: true,isImage: isImage);
     StreamControllerHelper.shared.setLastIndex(getIt<ChatListState>().messageList.length);
 
     socket.emit('send_message',{
       "senderChatID" : id,
       "receiverChatID" : receiver,
-      "content" : message
+      "content" : message,
+      "isImage" : isImage
     });
     
   }

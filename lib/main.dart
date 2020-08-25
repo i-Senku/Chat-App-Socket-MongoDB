@@ -1,11 +1,9 @@
 import 'package:chat/helper/preferences_helper.dart';
 import 'package:chat/viewmodel/chat/chat_view_model_list.dart';
-import 'package:chat/viewmodel/shuffle/shuffle_view_model_list.dart';
 import 'package:chat/views/shuffle/shuffle.dart';
 import 'package:chat/views/signin/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:provider/provider.dart';
 
 GetIt getIt = GetIt.instance;
 

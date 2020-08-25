@@ -42,7 +42,7 @@ mixin _$ShufListState on ShuffleListVM, Store {
   final _$fetchUserAsyncAction = AsyncAction('ShuffleListVM.fetchUser');
 
   @override
-  Future fetchUser() {
+  Future<void> fetchUser() {
     return _$fetchUserAsyncAction.run(() => super.fetchUser());
   }
 

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io' as Io;
+import 'dart:typed_data';
 import 'package:chat/viewmodel/chat/chat_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -24,7 +27,7 @@ class ChatMessage extends StatelessWidget {
               margin: EdgeInsets.all(8),
               padding: EdgeInsets.all(8),
               child:
-                  Text(message.content, style: TextStyle(color: Colors.white)),
+                  message.isImage ? Image.memory(base64Decode(message.content)) : Text(message.content, style: TextStyle(color: Colors.white)),
             ),
             Padding(
               padding: EdgeInsets.only(left: 12, right: 12),

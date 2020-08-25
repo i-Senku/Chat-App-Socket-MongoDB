@@ -32,8 +32,8 @@ abstract class ChatListVM with Store{
   }
 
   @action
-  addMessage({String message,bool isMy}){
-    messageList.add(ChatViewModel(message: Message(message: message,isMy: isMy,createdAt: DateTime.now().toString())));
+  addMessage({String message,bool isMy,bool isImage}){
+    messageList.add(ChatViewModel(message: Message(message: message,isMy: isMy,createdAt: DateTime.now().toString(),isImage: isImage)));
     messageStatus = MessageStatus.loaded;
   }
 

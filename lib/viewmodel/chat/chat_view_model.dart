@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:chat/model/message.dart';
 
 class ChatViewModel{
@@ -9,5 +10,6 @@ class ChatViewModel{
   String get content => _message.message;
   bool get isMy => _message.isMy;
   String get createdAt => _message.createdAt;
+  bool get isImage => _message.isImage;
 
 }

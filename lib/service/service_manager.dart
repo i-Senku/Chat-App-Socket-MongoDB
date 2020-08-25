@@ -89,16 +89,11 @@ class ServiceManager {
     var response = await http.post(Constant.shared.baseURL + "/message/fetchmessage",headers: header,body: body);
 
     if(response.statusCode == 200){
-      var lenght = (json.decode(response.body) as List).length;
-      print(lenght);
       var list = (json.decode(response.body) as List).map((e) => Message.fromJson(e)).toList();
       return list;
     }else{
       return List<Message>();
     }
   }
-
-  fetchMessageFromRoom() async {
-    var response = await http.get(Constant.shared.baseURL + '');
-  }
+  
 }
