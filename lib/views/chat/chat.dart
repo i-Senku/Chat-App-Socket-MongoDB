@@ -47,28 +47,6 @@ class _ChatViewState extends BaseState<ChatView> {
     super.dispose();
   }
 
-  getMessages() async {
-    subscription = StreamControllerHelper.shared.stream.listen((index) {
-      if (index > 1) {
-        itemScrollController.scrollTo(
-            index: index - 1, duration: Duration(milliseconds: 500));
-      }
-    });
-    await vm.fetchMessage(widget.receiverID);
-    if (vm.messageStatus != MessageStatus.empty)
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        itemScrollController.jumpTo(index: vm.messageList.length - 1);
-      });
-  }
-
-  getImage() async {
-    File file = await FilePicker.getFile();
-    var listImage = file.readAsBytesSync();
-    var base64 = base64Encode(listImage);
-    SocketHelper.shared.sendMessage(
-        receiver: widget.receiverID, message: base64,isImage: true);
-  }
-
   @override
   Widget build(BuildContext context) {
     if (vm.messageStatus !=
@@ -77,50 +55,131 @@ class _ChatViewState extends BaseState<ChatView> {
           index: vm.messageList.length - 1,
           duration: Duration(milliseconds: 200));
     }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.clientName),
-      ),
-      body: Column(
-        children: [
-          Flexible(child: buildChatScreen()),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SafeArea(
+      child: Scaffold(
+        appBar: PreferredSize(
+          child: Container(
+            child: Stack(
               children: [
-                IconButton(icon: Icon((Icons.image)), onPressed: getImage),
-                Flexible(
-                  flex: 6,
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    child: TextField(
-                      maxLines: null,
-                      style: TextStyle(fontSize: 16.0),
-                      controller: _messageController,
-                      decoration: InputDecoration.collapsed(
-                        border: UnderlineInputBorder(),
-                        hintText: 'Mesajınız',
-                        hintStyle: TextStyle(color: Colors.grey),
-                      ),
+                // Pop Button
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: GestureDetector(
+                        onTap: () => Navigator.of(context).pop(),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Color(0xFFE6E5E6),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8))),
+                          width: 30,
+                          height: 30,
+                          child: Center(child: Icon(Icons.chevron_left)),
+                        ),
+                      )),
+                ),
+                // Center User info
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        Text(
+                          widget.clientName,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Çevrimiçi",
+                          style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                Flexible(
-                    flex: 1,
-                    child: IconButton(
-                        icon: Icon(Icons.send),
-                        onPressed: () {
-                          if (_messageController.text.trim().isNotEmpty) {
-                            SocketHelper.shared.sendMessage(
-                                receiver: widget.receiverID,
-                                message: _messageController.text,isImage: false);
-                            _messageController.clear();
-                          }
-                        }))
+                // Divider
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      width: double.infinity,
+                      color: Colors.black,
+                      height: 0.20,
+                    )),
+                // User Avatar
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  "https://yt3.ggpht.com/a/AATXAJymPwE0-PXbFjcJDrZ9unwi5qXZq3dWLB53ha7nwZw=s100-c-k-c0xffffffff-no-rj-mo")),
+                          color: Colors.red,
+                          shape: BoxShape.circle),
+                    ),
+                  ),
+                )
               ],
             ),
-          )
-        ],
+          ),
+          preferredSize: Size(double.infinity, 60),
+        ),
+        body: Column(
+          children: [
+            Flexible(child: buildChatScreen()),
+            Container(
+              width: double.infinity,
+              color: Colors.black,
+              height: 0.20,
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(icon: Icon((Icons.image)), onPressed: selectImage),
+                  Flexible(
+                    flex: 6,
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      child: TextField(
+                        maxLines: null,
+                        style: TextStyle(fontSize: 16.0),
+                        controller: _messageController,
+                        decoration: InputDecoration.collapsed(
+                          border: UnderlineInputBorder(),
+                          hintText: 'Message',
+                          hintStyle: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                      flex: 1,
+                      child: IconButton(
+                          icon: Icon(Icons.send),
+                          onPressed: () {
+                            if (_messageController.text.trim().isNotEmpty) {
+                              SocketHelper.shared.sendMessage(
+                                  receiver: widget.receiverID,
+                                  message: _messageController.text,
+                                  isImage: false);
+                              _messageController.clear();
+                            }
+                          }))
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -143,5 +202,27 @@ class _ChatViewState extends BaseState<ChatView> {
             itemScrollController: itemScrollController,
             itemPositionsListener: itemPositionsListener);
     });
+  }
+
+  getMessages() async {
+    subscription = StreamControllerHelper.shared.stream.listen((index) {
+      if (index > 1) {
+        itemScrollController.scrollTo(
+            index: index - 1, duration: Duration(milliseconds: 500));
+      }
+    });
+    await vm.fetchMessage(widget.receiverID);
+    if (vm.messageStatus != MessageStatus.empty)
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        itemScrollController.jumpTo(index: vm.messageList.length - 1);
+      });
+  }
+
+  selectImage() async {
+    File file = await FilePicker.getFile();
+    var listImage = file.readAsBytesSync();
+    var base64 = base64Encode(listImage);
+    SocketHelper.shared.sendMessage(
+        receiver: widget.receiverID, message: base64, isImage: true);
   }
 }

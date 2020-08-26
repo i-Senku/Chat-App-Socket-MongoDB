@@ -22,6 +22,7 @@ class SocketHelper {
     socket.on('connect', (data) {
       socket.emit('chatID',{'id' : id});
       socket.on('receive_message', (data) {
+        print('My life');
         var content = data['content'].toString();
         var isImage = data['isImage'] as bool;
         getIt<ChatListState>().addMessage(message: content,isMy: false,isImage: isImage);

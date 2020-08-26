@@ -33,7 +33,7 @@ class ChatMessage extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(8))
                 ),
                   child: Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(3.0),
                     child: Container(
                     width: 300,
                     height: 250,
@@ -48,7 +48,7 @@ class ChatMessage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8,left: 12, right: 12),
-              child: Text(DateFormat('HH:mm').format(DateTime.parse(message.createdAt))),
+              child: Text(DateFormat('HH:mm').format(DateTime.parse(message.createdAt)),style: TextStyle(color: Colors.blueGrey,fontSize: 14,fontWeight: FontWeight.w500)),
             )
           ],
         ),
@@ -78,9 +78,9 @@ class ChatMessage extends StatelessWidget {
                       style: TextStyle(color: message.isMy ? Colors.white : Colors.black)),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 12, right: 12),
+              padding: EdgeInsets.only(left: 12, right: 12,bottom: 4),
               child: Text(DateFormat('HH:mm')
-                  .format(DateTime.parse(message.createdAt))),
+                  .format(DateTime.parse(message.createdAt)),style: TextStyle(color: Colors.blueGrey,fontSize: 14,fontWeight: FontWeight.w500),),
             )
           ],
         ),

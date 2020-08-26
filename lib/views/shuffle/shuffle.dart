@@ -45,6 +45,7 @@ class _ShuffleViewState extends BaseState<ShuffleView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Shuffle Scene'),
         actions: [
