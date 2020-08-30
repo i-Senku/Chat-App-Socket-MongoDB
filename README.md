@@ -10,6 +10,9 @@ Service : https://github.com/i-Senku/Chat-Socket-Service
 - Show Image
 - Send Image
 
+## Video
+[![ChatApp](https://i.hizliresim.com/SKBLBR.png)](https://www.youtube.com/watch?v=QrcmAHae_BA)
+
 
 ## Design Pattern & State Management
 - MVVM
