@@ -1,4 +1,4 @@
-import 'package:chat/main.dart';
+import 'package:chat/core/get_it.dart';
 import 'package:chat/viewmodel/chat/chat_view_model_list.dart';
 import 'package:chat/views/chat/message.dart';
 import 'package:flutter/material.dart';

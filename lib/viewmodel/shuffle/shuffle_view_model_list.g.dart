@@ -39,6 +39,21 @@ mixin _$ShufListState on ShuffleListVM, Store {
     });
   }
 
+  final _$onlineUsersAtom = Atom(name: 'ShuffleListVM.onlineUsers');
+
+  @override
+  ObservableList<String> get onlineUsers {
+    _$onlineUsersAtom.reportRead();
+    return super.onlineUsers;
+  }
+
+  @override
+  set onlineUsers(ObservableList<String> value) {
+    _$onlineUsersAtom.reportWrite(value, super.onlineUsers, () {
+      super.onlineUsers = value;
+    });
+  }
+
   final _$fetchUserAsyncAction = AsyncAction('ShuffleListVM.fetchUser');
 
   @override
@@ -46,11 +61,26 @@ mixin _$ShufListState on ShuffleListVM, Store {
     return _$fetchUserAsyncAction.run(() => super.fetchUser());
   }
 
+  final _$ShuffleListVMActionController =
+      ActionController(name: 'ShuffleListVM');
+
+  @override
+  dynamic setOnlineUsers(List<String> users) {
+    final _$actionInfo = _$ShuffleListVMActionController.startAction(
+        name: 'ShuffleListVM.setOnlineUsers');
+    try {
+      return super.setOnlineUsers(users);
+    } finally {
+      _$ShuffleListVMActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 status: ${status},
-userList: ${userList}
+userList: ${userList},
+onlineUsers: ${onlineUsers}
     ''';
   }
 }

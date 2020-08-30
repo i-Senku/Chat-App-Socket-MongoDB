@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:chat/core/base_state.dart';
+import 'package:chat/core/get_it.dart';
 import 'package:chat/helper/socket_helper.dart';
 import 'package:chat/helper/stream_controller_helper.dart';
-import 'package:chat/main.dart';
 import 'package:chat/viewmodel/chat/chat_view_model_list.dart';
+import 'package:chat/viewmodel/shuffle/shuffle_view_model_list.dart';
 import 'package:chat/views/chat/message_list.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class _ChatViewState extends BaseState<ChatView> {
       ItemPositionsListener.create();
 
   var vm = getIt<ChatListState>();
+  final state = getIt<ShufListState>();
 
   @override
   void initState() {
@@ -93,11 +95,13 @@ class _ChatViewState extends BaseState<ChatView> {
                         SizedBox(
                           height: 5,
                         ),
-                        Text(
-                          "Çevrimiçi",
-                          style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontWeight: FontWeight.bold),
+                        Observer(
+                            builder: (context) => Text(
+                            state.onlineUsers.contains(widget.receiverID) ? "Çevrimiçi" : "Son Görülme",
+                            style: TextStyle(
+                                color: Colors.blueGrey,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ],
                     ),
@@ -159,6 +163,11 @@ class _ChatViewState extends BaseState<ChatView> {
                           hintText: 'Message',
                           hintStyle: TextStyle(color: Colors.grey),
                         ),
+                        onChanged: (text) => {
+                          if(text.length > 1 && text.length <3){
+                            SocketHelper.shared.addUsersWriting(receiver: widget.receiverID)
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -172,6 +181,7 @@ class _ChatViewState extends BaseState<ChatView> {
                                   receiver: widget.receiverID,
                                   message: _messageController.text,
                                   isImage: false);
+                                SocketHelper.shared.removeUsersWriting(receiver: widget.receiverID);
                               _messageController.clear();
                             }
                           }))

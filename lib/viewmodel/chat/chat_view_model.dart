@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:chat/model/message.dart';
 
 class ChatViewModel{

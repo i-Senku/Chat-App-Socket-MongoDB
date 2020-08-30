@@ -1,4 +1,5 @@
 import 'package:chat/core/base_state.dart';
+import 'package:chat/core/get_it.dart';
 import 'package:chat/helper/preferences_helper.dart';
 import 'package:chat/helper/socket_helper.dart';
 import 'package:chat/viewmodel/shuffle/shuffle_view_model_list.dart';
@@ -13,7 +14,7 @@ class ShuffleView extends StatefulWidget {
 }
 
 class _ShuffleViewState extends BaseState<ShuffleView> {
-  var shuffleVM = ShufListState();
+  var shuffleVM = getIt<ShufListState>();
 
   Widget _buildShuffleList(ShuffleListVM vm) {
     return Observer(builder: (context) {
@@ -22,7 +23,7 @@ class _ShuffleViewState extends BaseState<ShuffleView> {
           return Center(child: CircularProgressIndicator());
           break;
         case ListStatus.loaded:
-          return ShuffleList(shuffleVM: shuffleVM,);
+          return ShuffleList();
           break;
         case ListStatus.empty:
           return Center(
