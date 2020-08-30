@@ -1,16 +1,37 @@
-# chat
+# Flutter Real Time Chat app with Socket.io & MongoDB
 
-A new Flutter project.
+Service : https://github.com/i-Senku/Chat-Socket-Service
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Online/Ofline User Status
+- Auto Scroll ListView
+- Check Room Control
+- Show Image
+- Send Image
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Design Pattern & State Management
+- MVVM
+- MobX
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Packages Used
+## CocoaPods
+
+```ruby
+socket_io_client: ^0.9.11
+shared_preferences: ^0.5.8
+http: ^0.12.2
+mobx: ^1.2.1+2
+flutter_mobx: ^1.1.0+2
+get_it: ^4.0.4
+scrollable_positioned_list: ^0.1.7
+image_picker: ^0.6.7+7
+file_picker: ^1.13.3
+photo_view: ^0.10.2
+```
+
+## Contact
+
+- Ercan Garip – [Linkedin](https://www.linkedin.com/in/ercangarip/)
+- Mail : ercangp34@gmail.com
