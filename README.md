@@ -15,8 +15,7 @@ Service : https://github.com/i-Senku/Chat-Socket-Service
 - MVVM
 - MobX
 
-## Packages Used
-## CocoaPods
+## Packages
 
 ```ruby
 socket_io_client: ^0.9.11
